@@ -26,7 +26,7 @@ import ScrollToTop from './components/ScrollToTop'
 // Views
 import WebView from './components/WebView'
 import About from './components/About'
-import Thanks from './components/Thanks'
+
 import PrivacyPolicy from './components/PrivacyPolicy'
 import SettingsView from './components/Settings'
 import PdfPreview from './components/PdfPreview'
@@ -336,7 +336,7 @@ function App() {
                 <Route path="/about" element={<About viewMode={viewMode} />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/settings" element={<SettingsView theme={theme} setTheme={setTheme} />} />
-                <Route path="/thanks" element={<Thanks />} />
+
               </Routes>
             </Suspense>
 

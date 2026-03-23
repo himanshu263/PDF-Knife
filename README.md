@@ -38,17 +38,6 @@ I built **PDF Knife** to solve this. It's a collection of tools that run entirel
 
 ---
 
-### Support the project
-
-PDF Knife is a solo project. It's open-source, ad-free, and tracker-free because I believe privacy is a right, not a luxury.
-
-If this tool has saved you time or kept your data safe, please consider:
-*   **Sponsoring:** Support development via [GitHub Sponsors](https://github.com/sponsors/himanshu263).
-*   **Giving a Star:** It helps other people find the project.
-*   **Spreading the word:** Share it with anyone who handles sensitive documents.
-
----
-
 ### Under the hood
 
 PDF Knife is built with **React** and **TypeScript**. The core processing is handled by **pdf-lib** and **pdfjs-dist**, which run in a sandboxed environment using WebAssembly.
@@ -56,4 +45,4 @@ PDF Knife is built with **React** and **TypeScript**. The core processing is han
 This project is licensed under the **GNU AGPL v3** to ensure it remains open and transparent forever.
 
 ---
-*Made with care by [himanshu263](https://github.com/himanshu263)*
+*Made with care by [himanshu263](https://himanshu263.github.io/resume/)*

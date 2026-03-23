@@ -17,7 +17,6 @@ import {
   LayoutGrid as LayoutGridIcon, 
   Settings as SettingsIcon,
   Github as GHIcon,
-  Heart as HeartIcon,
   Download
 } from 'lucide-react'
 
@@ -42,7 +41,7 @@ const categoryColors: Record<ToolCategory, { bg: string, text: string, hover: st
   Optimize: { bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-500', hover: 'hover:bg-amber-50 dark:hover:bg-amber-900/10', iconBg: 'bg-amber-100 dark:bg-amber-900/30' }
 }
 
-export default function Layout({ children, theme, toggleTheme, tools, onFileDrop, viewMode }: LayoutProps) {
+export default function Layout({ children, theme, toggleTheme, tools, onFileDrop }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isDragging, setIsDragging] = useState(false)
@@ -243,9 +242,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
               <div className="col-span-1 md:col-span-3">
                 <h4 className="font-bold text-[10px] uppercase tracking-widest text-gray-900 dark:text-white mb-4">Ecosystem</h4>
                 <ul className="space-y-2.5 text-xs text-gray-500 dark:text-zinc-500">
-                  <li><a href="https://github.com/sponsors/himanshu263" target="_blank" className="flex items-center gap-2 hover:text-rose-500 transition-colors">Sponsor <HeartIcon size={10} className="text-rose-500" /></a></li>
                   <li><a href="https://github.com/himanshu263/PDF-Knife/issues" target="_blank" className="hover:text-rose-500 transition-colors">Report Bug</a></li>
-                  <li><Link to="/thanks" className="hover:text-rose-500 transition-colors">Hall of Fame</Link></li>
                 </ul>
               </div>
 
@@ -254,7 +251,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-400 dark:text-zinc-600 font-medium">
               <p>© 2026 PDF Knife Project. No cookies used.</p>
               <div className="flex gap-6 items-center">
-                 <a href="https://github.com/himanshu263" target="_blank" className="hover:text-gray-900 dark:hover:text-white transition-colors">@himanshu263</a>
+                 <a href="https://himanshu263.github.io/resume/" target="_blank" className="hover:text-gray-900 dark:hover:text-white transition-colors">@himanshu263</a>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { 
   Trash2, Clock, Moon, Sun, Monitor,
   ChevronRight, Info, Zap, User, DownloadCloud, ListFilter,
-  RotateCcw, ShieldCheck, Bug, Heart as HeartIcon, Settings2
+  RotateCcw, ShieldCheck, Settings2
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { clearActivity } from '../utils/recentActivity'
@@ -224,19 +224,7 @@ export default function Settings({ theme, setTheme }: { theme: Theme, setTheme: 
 
         {/* Ecosystem */}
         <SettingGroup title="Ecosystem">
-          <SettingItem 
-            icon={HeartIcon} 
-            title="Sponsor Project" 
-            subtitle="Fuel development"
-            iconColor="text-rose-500 bg-rose-50 dark:bg-rose-900/20"
-            onClick={() => window.open('https://github.com/sponsors/himanshu263', '_blank')}
-          />
-          <SettingItem 
-            icon={Bug} 
-            title="Report Issue" 
-            subtitle="GitHub Tracker"
-            onClick={() => window.open('https://github.com/himanshu263/PDF-Knife/issues', '_blank')}
-          />
+
           <SettingItem 
             icon={Info} 
             title="About PDF Knife" 
