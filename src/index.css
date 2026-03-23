@@ -87,19 +87,36 @@ header, footer, nav, aside, main, section, div, button, input, select {
   @apply bg-gray-300 dark:bg-zinc-700;
 }
 
-/* Glassmorphism Utilities */
+/* --- PROFESSIONAL UI UTILITIES --- */
 .glass {
-  @apply bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md border border-white/20 dark:border-white/10;
+  @apply bg-white dark:bg-zinc-950/80 backdrop-blur-md;
 }
 
 .glass-dark {
-  @apply bg-zinc-950/80 backdrop-blur-xl border border-white/10;
+  @apply bg-zinc-900 shadow-xl border border-white/5;
 }
 
 .glass-card {
-  @apply bg-white/40 dark:bg-zinc-900/40 backdrop-blur-sm border border-white/20 dark:border-white/10;
+  @apply bg-white dark:bg-zinc-900/50 border border-gray-100 dark:border-white/5;
 }
 
 .glass-modal {
-  @apply bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border-t border-x border-white/20 dark:border-white/10;
+  @apply bg-[#FAFAFA] dark:bg-zinc-950 border border-gray-100 dark:border-white/10;
+}
+
+/* SOLID PROFESSIONAL UTILITIES */
+.pro-card {
+  @apply bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-sm transition-all duration-300;
+}
+
+.pro-header {
+  @apply bg-white dark:bg-black border-b border-gray-200 dark:border-zinc-800 sticky top-0 z-[100];
+}
+
+.pro-footer {
+  @apply bg-[#F9FAFB] dark:bg-zinc-950 border-t border-gray-200 dark:border-zinc-800;
+}
+
+.pro-dropdown {
+  @apply bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl;
 }

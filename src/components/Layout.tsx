@@ -9,7 +9,6 @@ import {
   ChevronDown as ChevronDownIcon,
   ArrowLeft as ArrowLeftIcon,
   LayoutGrid as LayoutGridIcon, 
-  Settings as SettingsIcon,
   Github as GHIcon,
   Download,
   Zap as ZapIcon,
@@ -117,15 +116,15 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
       
       {isDragging && (
         <div className="fixed inset-0 z-[200] bg-blue-600/10 backdrop-blur-sm flex items-center justify-center pointer-events-none">
-          <div className="bg-white dark:bg-zinc-900 p-12 rounded-[3rem] shadow-2xl border-4 border-dashed border-blue-600 animate-in zoom-in duration-300">
+          <div className="bg-white dark:bg-zinc-900 p-12 rounded-[3.5rem] shadow-2xl border-4 border-dashed border-blue-600 animate-in zoom-in duration-300">
             <UploadIcon size={64} className="text-blue-600 animate-bounce" />
             <p className="mt-4 font-black uppercase tracking-widest text-blue-600 text-center text-sm">Drop PDF to start</p>
           </div>
         </div>
       )}
 
-      {/* Modern Centered Header */}
-      <header className="flex items-center justify-between px-4 md:px-8 h-20 border-b border-white/20 dark:border-white/10 glass sticky top-0 z-[100] transition-all duration-500">
+      {/* Professional Solid Header */}
+      <header className="pro-header flex items-center justify-between px-4 md:px-8 h-20 transition-all duration-500">
         
         {/* Left: Search/Back & Tools */}
         <div className="flex items-center gap-2 md:gap-4 flex-1">
@@ -146,7 +145,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </button>
 
             {isToolsDropdownOpen && (
-              <div className="absolute top-full left-0 mt-3 w-screen max-w-[90vw] sm:w-[500px] glass rounded-[2.5rem] shadow-2xl p-4 sm:p-6 z-[200] animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+              <div className="absolute top-full left-0 mt-3 w-screen max-w-[90vw] sm:w-[500px] pro-dropdown rounded-[2.5rem] p-4 sm:p-6 z-[200] animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
                 <div className="max-h-[70vh] overflow-y-auto scrollbar-hide pr-2">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                     {Object.entries(toolsByCategory).map(([category, items]) => {
@@ -162,7 +161,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
                                   navigate(tool.path || '/')
                                   setIsToolsDropdownOpen(false)
                                 }}
-                                className="w-full flex items-center gap-3 p-2 rounded-2xl hover:bg-white/50 dark:hover:bg-white/5 transition-all group text-left"
+                                className="w-full flex items-center gap-3 p-2 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all group text-left"
                               >
                                 <div className={`p-1.5 rounded-lg ${style.bg} ${style.text} transition-all group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white`}>
                                   <tool.icon size={14} />
@@ -187,15 +186,15 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         {/* Center: Logo Branding */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <PdfKnifeLogo size={42} />
-            <span className="font-black tracking-tighter text-2xl dark:text-white hidden lg:block">PDF Knife</span>
+            <PdfKnifeLogo size={54} />
+            <span className="font-black tracking-tighter text-3xl dark:text-white hidden lg:block">PDF Knife</span>
           </Link>
         </div>
 
         {/* Right: Tools & Theme */}
         <div className="flex items-center justify-end gap-2 md:gap-4 flex-1">
-          {/* Custom Theme Switcher (Apple Glass Style) */}
-          <div className="hidden sm:flex items-center gap-1 bg-gray-100/50 dark:bg-white/5 rounded-full p-1 border border-white/5 backdrop-blur-sm">
+          {/* Professional Theme Switcher (Now Visible on Mobile) */}
+          <div className="flex items-center gap-1 bg-gray-100 dark:bg-zinc-900 rounded-full p-1 border border-gray-200 dark:border-zinc-800">
             <button 
               onClick={() => setTheme('light')} 
               className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
@@ -204,7 +203,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </button>
             <button 
               onClick={() => setTheme('dark')} 
-              className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-zinc-900 text-blue-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+              className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-zinc-800 text-blue-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
               <MoonIcon size={14} strokeWidth={3} />
             </button>
@@ -220,7 +219,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </button>
 
             {isQuickMenuOpen && (
-              <div className="absolute right-0 top-full mt-3 w-64 glass rounded-3xl p-3 shadow-2xl z-[200] animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="absolute right-0 top-full mt-3 w-64 pro-dropdown rounded-3xl p-3 z-[200] animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="grid grid-cols-1 gap-1">
                    {[
                       { label: 'PDF to Image', icon: ImageIcon, path: '/tools/pdf-to-img', color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' },
@@ -258,13 +257,13 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         {children}
       </main>
 
-      {/* Glass Footer */}
-      <footer className="border-t border-white/20 dark:border-white/10 glass">
+      {/* Professional Footer */}
+      <footer className="pro-footer">
         <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
             <div className="col-span-2 md:col-span-6 space-y-6">
               <Link to="/" className="flex items-center gap-3 text-gray-900 dark:text-white group w-fit">
-                <PdfKnifeLogo size={40} />
+                <PdfKnifeLogo size={48} />
                 <span className="font-black tracking-tighter text-2xl group-hover:text-blue-600 transition-colors">PDF Knife</span>
               </Link>
               <p className="text-gray-500 dark:text-zinc-500 text-sm leading-relaxed max-w-sm font-medium">
@@ -272,10 +271,10 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
                 No uploads, no servers, just your data in your browser.
               </p>
               <div className="flex items-center gap-4">
-                 <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-3 glass rounded-2xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500 group">
+                 <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500 group">
                    <GHIcon size={18} className="group-hover:scale-110 transition-transform" />
                  </a>
-                 <div className="px-4 py-2 glass rounded-full flex items-center gap-2">
+                 <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/20 rounded-full flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Stable Engine</span>
                  </div>
@@ -300,7 +299,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-400 dark:text-zinc-600 font-black uppercase tracking-widest">
+          <div className="pt-8 border-t border-gray-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-400 dark:text-zinc-600 font-black uppercase tracking-widest">
             <p>© 2026 PDF Knife Project • Local Engine</p>
             <a href="https://himanshu263.github.io/resume/" target="_blank" className="hover:text-blue-600 transition-colors">@himanshu263</a>
           </div>
@@ -308,7 +307,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
       </footer>
 
       {/* History Drawer */}
-      <aside className={`fixed top-0 right-0 h-screen w-full sm:w-80 glass z-[150] shadow-2xl transition-transform duration-500 ease-out transform ${showHistory ? 'translate-x-0' : 'translate-x-full'}`}>
+      <aside className={`fixed top-0 right-0 h-screen w-full sm:w-80 bg-white dark:bg-zinc-950 border-l border-gray-200 dark:border-zinc-800 z-[150] shadow-2xl transition-transform duration-500 ease-out transform ${showHistory ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
@@ -337,7 +336,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
               </div>
             ) : (
               activity.map((item) => (
-                <div key={item.id} className="p-4 glass-card rounded-2xl group relative">
+                <div key={item.id} className="p-4 pro-card rounded-2xl group relative">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg flex items-center justify-center">
                       <CheckCircleIcon size={16} />

@@ -12,34 +12,30 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { Tool, ToolCategory } from '../types'
 
-const categoryColors: Record<ToolCategory, { bg: string, text: string, border: string, hover: string, glow: string }> = {
+const categoryColors: Record<ToolCategory, { bg: string, text: string, border: string, hover: string }> = {
   Edit: { 
-    bg: 'bg-blue-50 dark:bg-blue-900/20', 
+    bg: 'bg-blue-50 dark:bg-blue-900/10', 
     text: 'text-blue-600', 
-    border: 'border-blue-100 dark:border-blue-900/30',
+    border: 'border-blue-100 dark:border-blue-900/20',
     hover: 'group-hover:bg-blue-600',
-    glow: 'dark:hover:shadow-blue-900/20'
   },
   Secure: { 
-    bg: 'bg-indigo-50 dark:bg-indigo-900/20', 
+    bg: 'bg-indigo-50 dark:bg-indigo-900/10', 
     text: 'text-indigo-500', 
-    border: 'border-indigo-100 dark:border-indigo-900/30',
+    border: 'border-indigo-100 dark:border-indigo-900/20',
     hover: 'group-hover:bg-indigo-500',
-    glow: 'dark:hover:shadow-indigo-900/20'
   },
   Convert: { 
-    bg: 'bg-emerald-50 dark:bg-emerald-900/20', 
+    bg: 'bg-emerald-50 dark:bg-emerald-900/10', 
     text: 'text-emerald-500', 
-    border: 'border-emerald-100 dark:border-emerald-900/30',
+    border: 'border-emerald-100 dark:border-emerald-900/20',
     hover: 'group-hover:bg-emerald-500',
-    glow: 'dark:hover:shadow-emerald-900/20'
   },
   Optimize: { 
-    bg: 'bg-amber-50 dark:bg-amber-900/20', 
+    bg: 'bg-amber-50 dark:bg-amber-900/10', 
     text: 'text-amber-500', 
-    border: 'border-amber-100 dark:border-amber-900/30',
+    border: 'border-amber-100 dark:border-amber-900/20',
     hover: 'group-hover:bg-amber-500',
-    glow: 'dark:hover:shadow-amber-900/20'
   }
 }
 
@@ -49,9 +45,9 @@ const ToolCard = ({ title, desc, icon: Icon, onClick, category }: Tool & { onCli
   return (
     <button 
       onClick={onClick}
-      className="group relative flex flex-col p-6 rounded-[2rem] glass-card hover:border-blue-600/50 dark:hover:border-blue-600/50 transition-all duration-300 text-left hover:shadow-2xl hover:shadow-blue-600/5 hover:-translate-y-1"
+      className="group relative flex flex-col p-6 rounded-[2rem] pro-card hover:border-blue-600 dark:hover:border-blue-600 transition-all duration-300 text-left hover:shadow-xl hover:-translate-y-1"
     >
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${colors.bg} ${colors.text} group-hover:bg-blue-600 group-hover:text-white transition-all duration-500`}>
+      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${colors.bg} ${colors.text} group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm border ${colors.border}`}>
         <Icon size={24} strokeWidth={2} />
       </div>
       <h3 className="font-black text-gray-900 dark:text-white mb-2 text-lg tracking-tight group-hover:text-blue-600 transition-colors">{title}</h3>
@@ -82,17 +78,17 @@ export default function WebView({ tools }: { tools: Tool[] }) {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black transition-colors duration-500">
-      {/* Hero Section */}
-      <section className="relative pt-12 md:pt-20 pb-16 px-4 md:px-6 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.08),transparent_70%)] pointer-events-none" />
+      {/* Professional Hero Section */}
+      <section className="relative pt-12 md:pt-20 pb-16 px-4 md:px-6 overflow-hidden border-b border-gray-100 dark:border-zinc-900 bg-white dark:bg-black">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.05),transparent_70%)] pointer-events-none" />
         
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-blue-100 dark:border-blue-900/30">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-blue-100 dark:border-blue-900/20">
             <SparklesIcon size={14} /> Professional PDF Engine
           </div>
           <h1 className="text-4xl md:text-7xl font-black tracking-tighter dark:text-white mb-8 leading-[0.9]">
-            Stop Uploading <br/>
-            <span className="text-blue-600">Your Privacy.</span>
+            The Privacy-First <br/>
+            <span className="text-blue-600">PDF Laboratory.</span>
           </h1>
           
           <div className="max-w-2xl mx-auto relative group mt-12">
@@ -104,31 +100,31 @@ export default function WebView({ tools }: { tools: Tool[] }) {
               placeholder="Search tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full glass rounded-3xl py-5 pl-14 pr-6 shadow-2xl shadow-blue-600/5 dark:shadow-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 outline-none transition-all font-bold text-lg md:text-xl dark:text-white"
+              className="w-full bg-white dark:bg-zinc-900 border-2 border-gray-100 dark:border-zinc-800 rounded-3xl py-5 pl-14 pr-6 shadow-xl shadow-blue-600/5 focus:border-blue-600 focus:ring-0 outline-none transition-all font-bold text-lg md:text-xl dark:text-white"
             />
           </div>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-6 pb-32">
+      <main className="max-w-7xl mx-auto px-6 pb-32 pt-16">
         <div className="flex flex-col md:flex-row gap-8">
           
           {/* Main Grid */}
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-12">
-              <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${activeCategory === cat ? 'bg-zinc-900 dark:bg-white text-white dark:text-black border-transparent shadow-lg' : 'bg-white dark:bg-zinc-900 text-gray-400 border-gray-100 dark:border-white/5 hover:border-blue-600'}`}
+                    className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all border ${activeCategory === cat ? 'bg-zinc-900 dark:bg-white text-white dark:text-black border-transparent shadow-lg' : 'bg-white dark:bg-zinc-900 text-gray-400 border-gray-200 dark:border-zinc-800 hover:border-blue-600'}`}
                   >
                     {cat}
                   </button>
                 ))}
               </div>
-              <p className="hidden md:block text-[10px] font-black text-gray-400 uppercase tracking-widest">{filteredTools.length} Modules Active</p>
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{filteredTools.length} Modules Active</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
