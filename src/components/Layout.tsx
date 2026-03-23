@@ -7,14 +7,11 @@ import {
   Upload as UploadIcon, 
   ChevronRight as ChevronRightIcon, 
   ChevronDown as ChevronDownIcon,
-  Home as HomeIcon, 
-  Info as InfoIcon, 
   ArrowLeft as ArrowLeftIcon,
   LayoutGrid as LayoutGridIcon, 
   Settings as SettingsIcon,
   Github as GHIcon,
   Download,
-  Terminal as TerminalIcon,
   Zap as ZapIcon,
   Shield as ShieldIcon,
   FileText as FileTextIcon,
@@ -26,7 +23,6 @@ import {
 import { Theme, Tool, ToolCategory, ViewMode } from '../types'
 import { PdfKnifeLogo } from './Logo'
 import { ActivityEntry, getRecentActivity, clearActivity } from '../utils/recentActivity'
-import { hapticImpact } from '../utils/haptics'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -294,7 +290,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
                     <span>{new Date(item.timestamp).toLocaleTimeString()}</span>
                     {item.resultUrl && (
                       <a href={item.resultUrl} download={item.name} className="text-blue-600 hover:underline flex items-center gap-1">
-                        <DownloadIcon size={10} /> Get File
+                        <Download size={10} /> Get File
                       </a>
                     )}
                   </div>
