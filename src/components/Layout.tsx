@@ -33,6 +33,13 @@ interface LayoutProps {
   viewMode?: ViewMode
 }
 
+const categoryStyles: Record<ToolCategory, { bg: string, text: string }> = {
+  Edit: { bg: 'bg-blue-50 dark:bg-blue-900/20', text: 'text-blue-600' },
+  Secure: { bg: 'bg-indigo-50 dark:bg-indigo-900/20', text: 'text-indigo-500' },
+  Convert: { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-500' },
+  Optimize: { bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-500' }
+}
+
 export default function Layout({ children, theme, toggleTheme, tools, onFileDrop }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -40,10 +47,19 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
   const [showHistory, setShowHistory] = useState(false)
   const [activity, setActivity] = useState<ActivityEntry[]>([])
   const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false)
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false)
   const quickMenuRef = useRef<HTMLDivElement>(null)
+  const toolsDropdownRef = useRef<HTMLDivElement>(null)
   
   const isHome = location.pathname === '/'
   
+  // Group tools by category
+  const toolsByCategory = tools.filter(t => t.implemented).reduce((acc, tool) => {
+    if (!acc[tool.category]) acc[tool.category] = []
+    acc[tool.category].push(tool)
+    return acc
+  }, {} as Record<string, Tool[]>)
+
   useEffect(() => {
     if (showHistory) {
       getRecentActivity().then(setActivity)
@@ -54,6 +70,9 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
     const handleClickOutside = (e: MouseEvent) => {
       if (quickMenuRef.current && !quickMenuRef.current.contains(e.target as Node)) {
         setIsQuickMenuOpen(false)
+      }
+      if (toolsDropdownRef.current && !toolsDropdownRef.current.contains(e.target as Node)) {
+        setIsToolsDropdownOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -108,17 +127,60 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
       {/* Modern Centered Header */}
       <header className="flex items-center justify-between px-4 md:px-8 h-20 border-b border-white/20 dark:border-white/10 glass sticky top-0 z-[100] transition-all duration-500">
         
-        {/* Left: Navigation Actions */}
+        {/* Left: Search/Back & Tools */}
         <div className="flex items-center gap-2 md:gap-4 flex-1">
           {!isHome && (
             <button onClick={() => navigate('/')} className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors text-gray-500 hover:text-blue-600 shrink-0">
               <ArrowLeftIcon size={20} />
             </button>
           )}
-          <div className="hidden lg:flex items-center gap-6">
-            <Link to="/tools/merge-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Merge</Link>
-            <Link to="/tools/compress-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Compress</Link>
-            <Link to="/tools/protect-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Protect</Link>
+
+          <div className="relative" ref={toolsDropdownRef}>
+            <button 
+              onClick={() => setIsToolsDropdownOpen(!isToolsDropdownOpen)}
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all font-black text-[10px] md:text-sm uppercase tracking-widest ${isToolsDropdownOpen ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
+            >
+              <LayoutGridIcon size={18} />
+              <span className="hidden sm:block">Tools</span>
+              <ChevronDownIcon size={14} className={`transition-transform duration-300 ${isToolsDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isToolsDropdownOpen && (
+              <div className="absolute top-full left-0 mt-3 w-screen max-w-[90vw] sm:w-[500px] glass rounded-[2.5rem] shadow-2xl p-4 sm:p-6 z-[200] animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+                <div className="max-h-[70vh] overflow-y-auto scrollbar-hide pr-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                    {Object.entries(toolsByCategory).map(([category, items]) => {
+                      const style = categoryStyles[category as ToolCategory] || categoryStyles.Edit
+                      return (
+                        <div key={category} className="space-y-3">
+                          <h4 className={`text-[10px] font-black uppercase tracking-[0.2em] ${style.text} opacity-60 px-2`}>{category}</h4>
+                          <div className="grid grid-cols-1 gap-1">
+                            {items.map(tool => (
+                              <button
+                                key={tool.path}
+                                onClick={() => {
+                                  navigate(tool.path || '/')
+                                  setIsToolsDropdownOpen(false)
+                                }}
+                                className="w-full flex items-center gap-3 p-2 rounded-2xl hover:bg-white/50 dark:hover:bg-white/5 transition-all group text-left"
+                              >
+                                <div className={`p-1.5 rounded-lg ${style.bg} ${style.text} transition-all group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white`}>
+                                  <tool.icon size={14} />
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-[11px] font-bold dark:text-white leading-none mb-0.5">{tool.title}</p>
+                                  <p className="text-[9px] text-gray-400 dark:text-zinc-500 line-clamp-1">{tool.desc.split('.')[0]}</p>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -126,7 +188,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <PdfKnifeLogo size={42} />
-            <span className="font-black tracking-tighter text-2xl dark:text-white hidden xs:block">PDF Knife</span>
+            <span className="font-black tracking-tighter text-2xl dark:text-white hidden lg:block">PDF Knife</span>
           </Link>
         </div>
 
@@ -151,11 +213,10 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
           <div className="relative" ref={quickMenuRef}>
             <button 
               onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 active:scale-95 whitespace-nowrap"
+              className="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black rounded-full text-[10px] font-black uppercase tracking-widest hover:opacity-80 transition-all shadow-lg active:scale-95 shrink-0"
             >
               <ZapIcon size={14} className="fill-current" />
-              <span className="hidden md:inline">Quick Action</span>
-              <ChevronDownIcon size={12} className={`transition-transform duration-300 ${isQuickMenuOpen ? 'rotate-180' : ''}`} />
+              <span className="hidden md:inline">Quick</span>
             </button>
 
             {isQuickMenuOpen && (
