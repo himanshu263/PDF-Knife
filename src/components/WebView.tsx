@@ -83,14 +83,14 @@ export default function WebView({ tools }: { tools: Tool[] }) {
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black transition-colors duration-500">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 px-6 overflow-hidden">
+      <section className="relative pt-12 md:pt-20 pb-16 px-4 md:px-6 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.08),transparent_70%)] pointer-events-none" />
         
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-blue-100 dark:border-blue-900/30">
             <SparklesIcon size={14} /> Professional PDF Engine
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter dark:text-white mb-8 leading-[0.9]">
+          <h1 className="text-4xl md:text-7xl font-black tracking-tighter dark:text-white mb-8 leading-[0.9]">
             Stop Uploading <br/>
             <span className="text-blue-600">Your Privacy.</span>
           </h1>
@@ -101,10 +101,10 @@ export default function WebView({ tools }: { tools: Tool[] }) {
             </div>
             <input 
               type="text"
-              placeholder="Search tools (e.g. merge, compress, protect...)"
+              placeholder="Search tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full glass rounded-[2rem] py-6 pl-16 pr-8 shadow-2xl shadow-blue-600/5 dark:shadow-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 outline-none transition-all font-bold text-xl dark:text-white"
+              className="w-full glass rounded-3xl py-5 pl-14 pr-6 shadow-2xl shadow-blue-600/5 dark:shadow-none focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10 outline-none transition-all font-bold text-lg md:text-xl dark:text-white"
             />
           </div>
         </div>

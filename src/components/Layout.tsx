@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { 
-  Download as DownloadIcon, 
   Moon as MoonIcon, 
   Sun as SunIcon, 
   History as HistoryIcon, 
   Upload as UploadIcon, 
   ChevronRight as ChevronRightIcon, 
   ChevronDown as ChevronDownIcon,
-  Plus as PlusIcon, 
-  Trash2 as Trash2Icon, 
-  CheckCircle2 as CheckCircleIcon, 
   Home as HomeIcon, 
   Info as InfoIcon, 
   ArrowLeft as ArrowLeftIcon,
   LayoutGrid as LayoutGridIcon, 
   Settings as SettingsIcon,
   Github as GHIcon,
-  Download
+  Download,
+  Terminal as TerminalIcon,
+  Zap as ZapIcon,
+  Shield as ShieldIcon,
+  FileText as FileTextIcon,
+  Image as ImageIcon,
+  CheckCircle2 as CheckCircleIcon,
+  Trash2 as Trash2Icon
 } from 'lucide-react'
 
 import { Theme, Tool, ToolCategory, ViewMode } from '../types'
@@ -31,14 +34,7 @@ interface LayoutProps {
   toggleTheme: () => void
   tools: Tool[]
   onFileDrop?: (files: FileList) => void
-  viewMode: ViewMode
-}
-
-const categoryColors: Record<ToolCategory, { bg: string, text: string, hover: string, iconBg: string }> = {
-  Edit: { bg: 'bg-blue-50 dark:bg-blue-900/20', text: 'text-blue-600', hover: 'hover:bg-blue-50 dark:hover:bg-blue-900/10', iconBg: 'bg-blue-100 dark:bg-blue-900/30' },
-  Secure: { bg: 'bg-indigo-50 dark:bg-indigo-900/20', text: 'text-indigo-500', hover: 'hover:bg-indigo-50 dark:hover:bg-indigo-900/10', iconBg: 'bg-indigo-100 dark:bg-indigo-900/30' },
-  Convert: { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-500', hover: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/10', iconBg: 'bg-emerald-100 dark:bg-emerald-900/30' },
-  Optimize: { bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-500', hover: 'hover:bg-amber-50 dark:hover:bg-amber-900/10', iconBg: 'bg-amber-100 dark:bg-amber-900/30' }
+  viewMode?: ViewMode
 }
 
 export default function Layout({ children, theme, toggleTheme, tools, onFileDrop }: LayoutProps) {
@@ -46,14 +42,12 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
   const location = useLocation()
   const [isDragging, setIsDragging] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [activity, setActivity] = useState<ActivityEntry[]>([])
-  const dropdownRef = useRef<HTMLDivElement>(null)
-  const isNative = false
-  const showMobileNav = false
+  const [isQuickMenuOpen, setIsQuickMenuOpen] = useState(false)
+  const quickMenuRef = useRef<HTMLDivElement>(null)
   
-  const isMobileBrowser = !isNative && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-
+  const isHome = location.pathname === '/'
+  
   useEffect(() => {
     if (showHistory) {
       getRecentActivity().then(setActivity)
@@ -62,8 +56,8 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setIsDropdownOpen(false)
+      if (quickMenuRef.current && !quickMenuRef.current.contains(e.target as Node)) {
+        setIsQuickMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -71,9 +65,6 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
   }, [])
 
   useEffect(() => {
-    // Disable global drop on mobile to prevent accidental triggers/bugs
-
-
     const handleDragOver = (e: DragEvent) => {
       e.preventDefault()
       if (onFileDrop) setIsDragging(true)
@@ -102,22 +93,12 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
     }
   }, [onFileDrop])
 
-  const activeTool = tools.find(t => {
-    const pathPart = t.title.split(' ')[0].toLowerCase()
-    return location.pathname.includes(`/${pathPart}`)
-  })
-
-  const isHome = location.pathname === '/'
-
-  const isMainView = isHome || 
-    location.pathname.endsWith('/android-tools') || 
-    location.pathname.endsWith('/android-history') || 
-    location.pathname.endsWith('/settings')
-
-  const shouldShowNav = showMobileNav && isMainView && !activeTool
+  const setTheme = (t: Theme) => {
+    if (t !== theme) toggleTheme()
+  }
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 transition-colors duration-300`}>
+    <div className={`min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 transition-colors duration-500`}>
       
       {isDragging && (
         <div className="fixed inset-0 z-[200] bg-blue-600/10 backdrop-blur-sm flex items-center justify-center pointer-events-none">
@@ -128,200 +109,154 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         </div>
       )}
 
-      {/* Web Header */}
-      {!showMobileNav && (
-        <header className="flex items-center justify-between px-4 md:px-8 h-18 md:h-20 border-b border-white/20 dark:border-white/10 glass sticky top-0 z-[100] transition-all duration-500">
-          <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
-            {!isHome && (
-              <button onClick={() => navigate('/')} className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors text-gray-500 hover:text-blue-600 shrink-0"><ArrowLeftIcon size={20} /></button>
-            )}
-            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
-              <PdfKnifeLogo size={44} />
-              <span className="font-black tracking-tighter text-xl md:text-2xl dark:text-white hidden xs:block">PDF Knife</span>
-            </Link>
-            <div className="h-6 w-[1px] bg-gray-200 dark:bg-zinc-800 mx-1 md:mx-2 shrink-0" />
-            <div className="relative min-w-0" ref={dropdownRef}>
-              <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className={`flex items-center gap-2 px-2 md:px-3 py-1.5 rounded-xl transition-all font-black text-[10px] md:text-sm uppercase tracking-widest min-w-0 ${isDropdownOpen ? 'bg-blue-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'}`}>
-                <span className="truncate">{isHome ? 'All Tools' : activeTool?.title || 'Tool'}</span>
-                <ChevronDownIcon size={14} className={`transition-transform duration-300 shrink-0 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-3 w-72 md:w-80 bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-[2rem] shadow-2xl py-4 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 max-h-[80vh] overflow-y-auto scrollbar-hide">
-                  {Object.entries(tools.filter(t => t.implemented).reduce((acc, tool) => { if (!acc[tool.category]) acc[tool.category] = []; acc[tool.category].push(tool); return acc }, {} as Record<string, Tool[]>)).map(([category, categoryTools]) => {
-                    const colors = categoryColors[category as ToolCategory]
-                    return (
-                      <div key={category} className="mb-4">
-                        <div className="px-6 py-2"><span className={`text-[10px] font-black uppercase tracking-[0.2em] ${colors.text} opacity-60`}>{category}</span></div>
-                        <div className="grid grid-cols-1 gap-1 px-2">
-                          {categoryTools.map((tool, i) => {
-                            const Icon = tool.icon; const isActive = activeTool?.title === tool.title && !isHome
-                            return (
-                              <button key={i} onClick={() => { navigate(tool.path || '/'); setIsDropdownOpen(false); }} className={`flex items-center gap-4 p-3 rounded-2xl transition-all text-left group ${isActive ? `${colors.bg} ${colors.text}` : `hover:bg-gray-50 dark:hover:bg-zinc-800 text-gray-500 dark:text-gray-400`}`}>
-                                <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-white dark:bg-zinc-800' : `${colors.iconBg} ${colors.text} opacity-70 group-hover:opacity-100`}`}><Icon size={18} /></div>
-                                <div className="flex-1 min-w-0"><p className="text-xs font-black uppercase tracking-tight">{tool.title}</p><p className="text-[10px] opacity-60 truncate">{tool.desc}</p></div>
-                              </button>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center gap-1 md:gap-3 shrink-0">
-            {isMobileBrowser && (
-              <a 
-                href="https://github.com/himanshu263/PDF-Knife/releases/latest" 
-                target="_blank"
-                className="hidden xs:flex items-center gap-2 px-3 py-1.5 bg-zinc-900 dark:bg-white text-white dark:text-black rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all"
-              >
-                <Download size={14} strokeWidth={3} />
-                Get APK
-              </a>
-            )}
-            <Link to="/about" className={`p-2 md:px-4 md:py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 ${location.pathname.includes('about') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-900'}`}>
-              <InfoIcon size={18} />
-              <span className="hidden sm:block">About</span>
-            </Link>
-            <button onClick={toggleTheme} className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
-              {theme === 'light' ? <MoonIcon size={20} /> : <SunIcon size={20} />}
+      {/* Modern Centered Header */}
+      <header className="flex items-center justify-between px-4 md:px-8 h-20 border-b border-white/20 dark:border-white/10 glass sticky top-0 z-[100] transition-all duration-500">
+        
+        {/* Left: Navigation Actions */}
+        <div className="flex items-center gap-2 md:gap-4 flex-1">
+          {!isHome && (
+            <button onClick={() => navigate('/')} className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors text-gray-500 hover:text-blue-600 shrink-0">
+              <ArrowLeftIcon size={20} />
             </button>
-            <button onClick={() => setShowHistory(true)} className={`p-2 transition-colors relative ${showHistory ? 'text-blue-600' : 'text-gray-400 hover:text-blue-600'}`}>
-              <HistoryIcon size={20} />
-              {activity.length > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full border-2 border-white dark:border-black" />}
-            </button>
+          )}
+          <div className="hidden lg:flex items-center gap-6">
+            <Link to="/tools/merge-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Merge</Link>
+            <Link to="/tools/compress-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Compress</Link>
+            <Link to="/tools/protect-pdf" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Protect</Link>
           </div>
-        </header>
-      )}
+        </div>
 
-      <main className={`flex-1 min-w-0 ${shouldShowNav ? 'pb-32' : ''}`}>
+        {/* Center: Logo Branding */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <PdfKnifeLogo size={42} />
+            <span className="font-black tracking-tighter text-2xl dark:text-white hidden xs:block">PDF Knife</span>
+          </Link>
+        </div>
+
+        {/* Right: Tools & Theme */}
+        <div className="flex items-center justify-end gap-2 md:gap-4 flex-1">
+          {/* Custom Theme Switcher (Apple Glass Style) */}
+          <div className="hidden sm:flex items-center gap-1 bg-gray-100/50 dark:bg-white/5 rounded-full p-1 border border-white/5 backdrop-blur-sm">
+            <button 
+              onClick={() => setTheme('light')} 
+              className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+            >
+              <SunIcon size={14} strokeWidth={3} />
+            </button>
+            <button 
+              onClick={() => setTheme('dark')} 
+              className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-zinc-900 text-blue-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+            >
+              <MoonIcon size={14} strokeWidth={3} />
+            </button>
+          </div>
+
+          <div className="relative" ref={quickMenuRef}>
+            <button 
+              onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 active:scale-95 whitespace-nowrap"
+            >
+              <ZapIcon size={14} className="fill-current" />
+              <span className="hidden md:inline">Quick Action</span>
+              <ChevronDownIcon size={12} className={`transition-transform duration-300 ${isQuickMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isQuickMenuOpen && (
+              <div className="absolute right-0 top-full mt-3 w-64 glass rounded-3xl p-3 shadow-2xl z-[200] animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="grid grid-cols-1 gap-1">
+                   {[
+                      { label: 'PDF to Image', icon: ImageIcon, path: '/tools/pdf-to-img', color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' },
+                      { label: 'Images to PDF', icon: FileTextIcon, path: '/tools/img-to-pdf', color: 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' },
+                      { label: 'Split PDF', icon: LayoutGridIcon, path: '/tools/split-pdf', color: 'text-purple-500 bg-purple-50 dark:bg-purple-900/20' },
+                      { label: 'Add Password', icon: ShieldIcon, path: '/tools/protect-pdf', color: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' }
+                   ].map(item => (
+                     <button 
+                        key={item.path}
+                        onClick={() => {
+                          navigate(item.path)
+                          setIsQuickMenuOpen(false)
+                        }}
+                        className="w-full flex items-center gap-4 p-3 rounded-2xl hover:bg-blue-600 hover:text-white transition-all group text-left"
+                     >
+                        <div className={`p-2 rounded-xl ${item.color} group-hover:bg-white/20 group-hover:text-white transition-colors`}>
+                          <item.icon size={18} />
+                        </div>
+                        <span className="text-xs font-black uppercase tracking-tight">{item.label}</span>
+                     </button>
+                   ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button onClick={() => setShowHistory(true)} className={`p-2 transition-colors relative ${showHistory ? 'text-blue-600' : 'text-gray-400 hover:text-blue-600'}`}>
+            <HistoryIcon size={22} />
+            {activity.length > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full border-2 border-white dark:border-black" />}
+          </button>
+        </div>
+      </header>
+
+      <main className="flex-1 relative">
         {children}
       </main>
 
-      {/* Web Footer - Modern Glass Design */}
-      {!showMobileNav && (
-        <footer className="border-t border-white/20 dark:border-white/10 mt-20 glass relative z-10">
-          <div className="max-w-7xl mx-auto px-6 md:px-8 py-10 md:py-12">
-            
-            <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
-              
-              {/* Brand Column (Span 6) */}
-              <div className="col-span-2 md:col-span-6 space-y-4">
-                <Link to="/" className="flex items-center gap-2.5 text-gray-900 dark:text-white group w-fit">
-                  <PdfKnifeLogo size={36} iconColor="#F43F5E" partColor="currentColor" />
-                  <span className="font-bold tracking-tight text-xl group-hover:text-blue-600 transition-colors">PDF Knife</span>
-                </Link>
-                <p className="text-gray-500 dark:text-zinc-500 text-xs leading-relaxed max-w-sm">
-                  The privacy-first PDF toolkit. 100% client-side logic. <br/>
-                  Zero servers. Open source and forever free.
-                </p>
-                <div className="flex items-center gap-2 pt-1">
-                   <div className="flex items-center gap-2 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/10 text-emerald-600 dark:text-emerald-400 rounded-full text-[9px] font-bold uppercase tracking-wide border border-emerald-100 dark:border-emerald-900/20">
-                      <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
-                      Live Engine
-                   </div>
-                   <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-2 bg-gray-50 dark:bg-zinc-900 rounded-xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500">
-                     <GHIcon size={14} />
-                   </a>
-                </div>
-              </div>
-
-              {/* Legal Column */}
-              <div className="col-span-1 md:col-span-3">
-                <h4 className="font-bold text-[10px] uppercase tracking-widest text-gray-900 dark:text-white mb-4">Protocol</h4>
-                <ul className="space-y-2.5 text-xs text-gray-500 dark:text-zinc-500">
-                  <li><Link to="/about" className="hover:text-blue-600 transition-colors">About</Link></li>
-                  <li><Link to="/privacy" className="hover:text-blue-600 transition-colors">Privacy Spec</Link></li>
-                  <li><a href="https://github.com/himanshu263/PDF-Knife/blob/main/LICENSE" target="_blank" className="hover:text-blue-600 transition-colors">License</a></li>
-                </ul>
-              </div>
-
-              {/* Community Column */}
-              <div className="col-span-1 md:col-span-3">
-                <h4 className="font-bold text-[10px] uppercase tracking-widest text-gray-900 dark:text-white mb-4">Ecosystem</h4>
-                <ul className="space-y-2.5 text-xs text-gray-500 dark:text-zinc-500">
-                  <li><a href="https://github.com/himanshu263/PDF-Knife/issues" target="_blank" className="hover:text-blue-600 transition-colors">Report Bug</a></li>
-                </ul>
-              </div>
-
-            </div>
-            
-            <div className="pt-6 border-t border-gray-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-gray-400 dark:text-zinc-600 font-medium">
-              <p>© 2026 PDF Knife Project. No cookies used.</p>
-              <div className="flex gap-6 items-center">
-                 <a href="https://himanshu263.github.io/resume/" target="_blank" className="hover:text-gray-900 dark:hover:text-white transition-colors">@himanshu263</a>
+      {/* Glass Footer */}
+      <footer className="border-t border-white/20 dark:border-white/10 glass">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
+            <div className="col-span-2 md:col-span-6 space-y-6">
+              <Link to="/" className="flex items-center gap-3 text-gray-900 dark:text-white group w-fit">
+                <PdfKnifeLogo size={40} />
+                <span className="font-black tracking-tighter text-2xl group-hover:text-blue-600 transition-colors">PDF Knife</span>
+              </Link>
+              <p className="text-gray-500 dark:text-zinc-500 text-sm leading-relaxed max-w-sm font-medium">
+                The privacy-first PDF toolkit. 100% client-side logic. <br/>
+                No uploads, no servers, just your data in your browser.
+              </p>
+              <div className="flex items-center gap-4">
+                 <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-3 glass rounded-2xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500 group">
+                   <GHIcon size={18} className="group-hover:scale-110 transition-transform" />
+                 </a>
+                 <div className="px-4 py-2 glass rounded-full flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Stable Engine</span>
+                 </div>
               </div>
             </div>
+
+            <div className="col-span-1 md:col-span-3">
+              <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400 dark:text-zinc-600 mb-6">Internal</h4>
+              <ul className="space-y-4 text-xs font-bold text-gray-600 dark:text-zinc-400">
+                <li><Link to="/about" className="hover:text-blue-600 transition-colors">Protocol Spec</Link></li>
+                <li><Link to="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
+                <li><a href="https://github.com/himanshu263/PDF-Knife/blob/main/LICENSE" target="_blank" className="hover:text-blue-600 transition-colors">License AGPLv3</a></li>
+              </ul>
+            </div>
+
+            <div className="col-span-1 md:col-span-3">
+              <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-gray-400 dark:text-zinc-600 mb-6">Developer</h4>
+              <ul className="space-y-4 text-xs font-bold text-gray-600 dark:text-zinc-400">
+                <li><a href="https://himanshu263.github.io/resume/" target="_blank" className="hover:text-blue-600 transition-colors">Resume</a></li>
+                <li><a href="https://github.com/himanshu263/PDF-Knife/issues" target="_blank" className="hover:text-blue-600 transition-colors">Report Issue</a></li>
+              </ul>
+            </div>
           </div>
-        </footer>
-      )}
 
-      {/* Titan Bottom Navigation (Solid, Grounded) */}
-      {shouldShowNav && (
-        <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-gray-100 dark:border-zinc-800 flex items-end justify-between px-6 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-3 z-[100] shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
-          <button 
-            onClick={() => navigate('/')}
-            className={`flex flex-col items-center gap-1.5 flex-1 transition-all ${location.pathname === '/' ? 'text-blue-600' : 'text-gray-400 dark:text-zinc-600'}`}
-          >
-            <HomeIcon size={24} strokeWidth={location.pathname === '/' ? 2.5 : 2} />
-            <span className="text-[10px] font-bold">Home</span>
-          </button>
-
-          <button 
-            onClick={() => navigate('/android-tools')}
-            className={`flex flex-col items-center gap-1.5 flex-1 transition-all ${location.pathname === '/android-tools' ? 'text-blue-600' : 'text-gray-400 dark:text-zinc-600'}`}
-          >
-            <LayoutGridIcon size={24} strokeWidth={location.pathname === '/android-tools' ? 2.5 : 2} />
-            <span className="text-[10px] font-bold">Tools</span>
-          </button>
-
-          {/* Floating Action Button - Lifted */}
-          <div className="relative -top-8">
-             <button 
-               onClick={() => {
-                 hapticImpact()
-                 const input = document.createElement('input')
-                 input.type = 'file'
-                 input.accept = '.pdf'
-                 input.onchange = (e) => {
-                   const file = (e.target as HTMLInputElement).files?.[0]
-                   if (file) onFileDrop?.([file] as any)
-                 }
-                 input.click()
-               }}
-               className="w-14 h-14 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-600/40 flex items-center justify-center active:scale-90 transition-transform ring-4 ring-white dark:ring-black"
-             >
-               <PlusIcon size={32} strokeWidth={3} />
-             </button>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-400 dark:text-zinc-600 font-black uppercase tracking-widest">
+            <p>© 2026 PDF Knife Project • Local Engine</p>
+            <a href="https://himanshu263.github.io/resume/" target="_blank" className="hover:text-blue-600 transition-colors">@himanshu263</a>
           </div>
-          
-          <button 
-            onClick={() => navigate('/android-history')}
-            className={`flex flex-col items-center gap-1.5 flex-1 transition-all ${location.pathname === '/android-history' ? 'text-blue-600' : 'text-gray-400 dark:text-zinc-600'}`}
-          >
-            <HistoryIcon size={24} strokeWidth={location.pathname === '/android-history' ? 2.5 : 2} />
-            <span className="text-[10px] font-bold">History</span>
-          </button>
+        </div>
+      </footer>
 
-          <Link 
-            to="/settings"
-            className={`flex flex-col items-center gap-1.5 flex-1 transition-all no-underline ${location.pathname.includes('settings') ? 'text-blue-600' : 'text-gray-400 dark:text-zinc-600'}`}
-          >
-            <SettingsIcon size={24} strokeWidth={location.pathname.includes('settings') ? 2.5 : 2} />
-            <span className="text-[10px] font-bold">Settings</span>
-          </Link>
-        </nav>
-      )}
-
-      {/* Sidebar History Drawer */}
-      <aside className={`fixed top-0 right-0 h-screen w-full sm:w-80 bg-white dark:bg-zinc-950 border-l border-gray-100 dark:border-zinc-800 z-[150] shadow-2xl transition-transform duration-500 ease-out transform ${showHistory ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* History Drawer */}
+      <aside className={`fixed top-0 right-0 h-screen w-full sm:w-80 glass z-[150] shadow-2xl transition-transform duration-500 ease-out transform ${showHistory ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
               <HistoryIcon className="text-blue-600" size={24} />
-              <h2 className="text-xl font-black dark:text-white">Activity</h2>
+              <h2 className="text-xl font-black dark:text-white tracking-tighter">Activity History</h2>
             </div>
             <div className="flex items-center gap-2">
               {activity.length > 0 && (
@@ -338,18 +273,38 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </div>
           </div>
           <div className="flex-1 overflow-y-auto space-y-3 scrollbar-hide">
-            {activity.length === 0 ? (<div className="text-center py-20 opacity-40"><p className="text-xs font-bold uppercase tracking_widest text-gray-400">No recent files</p></div>) : (
+            {activity.length === 0 ? (
+              <div className="text-center py-20 opacity-30">
+                <HistoryIcon size={48} className="mx-auto mb-4 text-gray-400" />
+                <p className="text-[10px] font-black uppercase tracking-widest">No recent records</p>
+              </div>
+            ) : (
               activity.map((item) => (
-                <div key={item.id} className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-2xl border border-gray-100 dark:border-zinc-800 group relative">
-                  <div className="flex items-center gap-3 mb-2"><div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg flex items-center justify-center"><CheckCircleIcon size={16} /></div><div className="flex-1 min-w-0"><p className="text-xs font-bold truncate dark:text-white">{item.name}</p><p className="text-[10px] text-gray-400 font-black uppercase tracking-tighter">{item.tool}</p></div></div>
-                  <div className="flex items-center justify-between text-[9px] text-gray-400 font-bold"><span>{new Date(item.timestamp).toLocaleTimeString()}</span>{item.resultUrl && (<a href={item.resultUrl} download={item.name} className="text-blue-600 hover:underline flex items-center gap-1"><DownloadIcon size={10} /> Redownload</a>)}</div>
+                <div key={item.id} className="p-4 glass-card rounded-2xl group relative">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-lg flex items-center justify-center">
+                      <CheckCircleIcon size={16} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold truncate dark:text-white">{item.name}</p>
+                      <p className="text-[9px] text-gray-400 font-black uppercase tracking-tighter">{item.tool}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-[9px] text-gray-400 font-bold">
+                    <span>{new Date(item.timestamp).toLocaleTimeString()}</span>
+                    {item.resultUrl && (
+                      <a href={item.resultUrl} download={item.name} className="text-blue-600 hover:underline flex items-center gap-1">
+                        <DownloadIcon size={10} /> Get File
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))
             )}
           </div>
         </div>
       </aside>
-      {showHistory && (<div onClick={() => setShowHistory(false)} className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-[140] animate-in fade-in duration-300" />)}
+      {showHistory && (<div onClick={() => setShowHistory(false)} className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[140] animate-in fade-in duration-300" />)}
     </div>
   )
 }

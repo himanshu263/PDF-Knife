@@ -1,40 +1,42 @@
 # PDF Knife
 
-**A simple, honest PDF utility that respects your privacy.**
-
-[![License](https://img.shields.io/badge/license-AGPL--3.0-rose.svg)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/himanshu263/PDF-Knife?style=flat&color=rose)](https://github.com/himanshu263/PDF-Knife/stargazers)
-[![Web App](https://img.shields.io/badge/web-live-emerald.svg)](https://himanshu263.github.io/PDF-Knife/)
-[![Twitter](https://img.shields.io/badge/twitter-@himanshu263-black?logo=x)](https://x.com/himanshu263)
+The privacy-first PDF toolkit. 100% client-side logic. No uploads, no servers, just your data in your browser.
 
 ---
 
-## Preview
-
-<p align="center">
-  <img src="assets/preview/screenshot1.jpg" width="90%" alt="Web View">
-</p>
+### Key Features
+*   **Absolute Privacy:** Files are processed locally using WebAssembly. Your data never leaves your device.
+*   **Professional Tools:** Merge, Compress, Split, Protect, and more.
+*   **Premium Design:** Modern Blue Glassmorphism aesthetic (Apple-style).
+*   **Fast & Local:** Instant processing without network delays.
 
 ---
 
-### Why I built this
+### 📖 User Guide
 
-Most PDF websites ask you to upload your sensitive documents—bank statements, IDs, contracts—to their servers. Even if they promise to delete them, your data still leaves your device and travels across the internet.
+#### 1. Selecting a Tool
+Browse the dashboard or use the **Quick Action** menu at the top right to jump to frequent tasks like **PDF to Image** or **Images to PDF**.
 
-I built **PDF Knife** to solve this. It's a collection of tools that run entirely in your browser. Your files never leave your memory, they aren't stored in any database, and no server ever sees them. It works 100% offline.
+#### 2. Processing Files
+- **Drag & Drop**: Simply drag your PDF into the browser window.
+- **Manual Select**: Click the upload icon or the tool card to select files.
+- **Local Conversion**: Once you select an action, the engine runs locally. Wait for the "Success" notification.
 
-### What it can do
+#### 3. Getting Your Results
+Results are automatically generated and ready for download. By default, the app will prompt you to save the file or download it directly based on your browser settings.
 
-*   **Modify:** Merge multiple files, split pages, rotate, and rearrange.
-*   **Optimize:** Reduce file size with different quality presets.
-*   **Secure:** Encrypt files with passwords or remove them locally.
-*   **Convert:** Convert between PDF and images (JPG/PNG) or plain text.
-*   **Sign:** Add an electronic signature to your documents safely.
-*   **Sanitize:** Deep clean metadata (like Author or Producer) to keep your files anonymous.
+#### 4. History Management
+The sidebar **Activity** tab tracks your recent operations. You can redownload recent results or clear your history for extra privacy.
 
-### How to use it
+---
 
-*   **On the Web:** Visit the [live site](https://himanshu263.github.io/PDF-Knife/). You can use it like any other website, or "install" it as a PWA for offline access.
+### 📱 Mobile Usage
+
+PDF Knife is fully mobile-responsive and works perfectly on smartphones:
+*   **Centered Logo**: Easy navigation back to home from any tool.
+*   **Touch Optimized**: Large tap targets for tool selection.
+*   **PWA Ready**: You can "Add to Home Screen" on iOS/Android to use it as a full-screen app.
+*   **Privacy First**: Even on mobile, all processing happens on your device's hardware, not a remote server.
 
 ---
 
@@ -42,7 +44,7 @@ I built **PDF Knife** to solve this. It's a collection of tools that run entirel
 
 PDF Knife is built with **React** and **TypeScript**. The core processing is handled by **pdf-lib** and **pdfjs-dist**, which run in a sandboxed environment using WebAssembly.
 
-This project is licensed under the **GNU AGPL v3** to ensure it remains open and transparent forever.
+This project is licensed under the **GNU AGPL v3**.
 
 ---
 *Made with care by [himanshu263](https://himanshu263.github.io/resume/)*
