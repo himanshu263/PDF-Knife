@@ -51,7 +51,6 @@ const SpecItem = ({ title, icon: Icon, children, defaultOpen = false }: { title:
 
 // --- WEB VERSION (TITAN v1.2 EXPLANATORY) ---
 const AboutWeb = () => {
-  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 selection:bg-rose-500 selection:text-white pb-24">
       
@@ -144,7 +143,6 @@ const AboutWeb = () => {
 
 // --- APK VERSION (TITAN MOBILE OVERHAUL - PROTOCOL EXPLAINER) ---
 const AboutAPK = () => {
-  const navigate = useNavigate()
   return (
     <NativeToolLayout title="Protocol" description="System Internals" actions={null}>
       <div className="px-4 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-4">
