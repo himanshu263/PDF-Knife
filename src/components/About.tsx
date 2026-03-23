@@ -15,7 +15,7 @@ import {
   HardDrive as DiskIcon,
   EyeOff as PrivacyIcon
 } from 'lucide-react'
-import { NativeToolLayout } from './tools/shared/NativeToolLayout'
+
 import { PdfKnifeLogo } from './Logo'
 import { ViewMode } from '../types'
 
@@ -29,12 +29,12 @@ const SpecItem = ({ title, icon: Icon, children, defaultOpen = false }: { title:
         className="w-full py-6 flex items-center justify-between text-left group transition-all"
       >
         <div className="flex items-center gap-5">
-          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/20' : 'bg-gray-50 dark:bg-zinc-900 text-gray-400 group-hover:text-rose-500 group-hover:bg-rose-50 dark:group-hover:bg-rose-900/10'}`}>
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-gray-50 dark:bg-zinc-900 text-gray-400 group-hover:text-blue-600 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/10'}`}>
             <Icon size={20} strokeWidth={2.5} />
           </div>
           <h4 className="font-black text-xs md:text-sm uppercase tracking-[0.2em] text-gray-900 dark:text-white transition-colors">{title}</h4>
         </div>
-        <div className={`p-2 rounded-full transition-all ${isOpen ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-500' : 'text-gray-300'}`}>
+        <div className={`p-2 rounded-full transition-all ${isOpen ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' : 'text-gray-300'}`}>
           <ChevronDownIcon size={18} className={`transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`} />
         </div>
       </button>
@@ -50,7 +50,7 @@ const SpecItem = ({ title, icon: Icon, children, defaultOpen = false }: { title:
 // --- WEB VERSION (TITAN v1.2 EXPLANATORY) ---
 const AboutWeb = () => {
   return (
-    <div className="min-h-screen bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 selection:bg-rose-500 selection:text-white pb-24">
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 selection:bg-blue-600 selection:text-white pb-24">
       
       {/* 1. Impact Hero - Compact */}
       <section className="relative pt-20 pb-12 px-6 overflow-hidden">
@@ -58,7 +58,7 @@ const AboutWeb = () => {
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter dark:text-white mb-6 leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700">
             Privacy is a <br/>
-            <span className="text-rose-500 font-black">Human Right.</span>
+            <span className="text-blue-600 font-black">Human Right.</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
             PDF Knife is an absolute document engine. No servers, no tracking, no compromises. We transform your browser into a self-contained document laboratory.
@@ -79,7 +79,7 @@ const AboutWeb = () => {
             </div>
             <h2 className="text-3xl font-black tracking-tighter dark:text-white leading-[1.1]">
               Architecture of <br/>
-              <span className="text-rose-500">Absolute Sovereignty.</span>
+              <span className="text-blue-600">Absolute Sovereignty.</span>
             </h2>
             <p className="text-gray-500 dark:text-zinc-400 text-sm font-medium leading-relaxed">
               PDF Knife rejects the trade-off between convenience and privacy. We've built an engine that runs where the user is, ensuring your sensitive data never crosses a network boundary.
@@ -97,11 +97,11 @@ const AboutWeb = () => {
           {/* Accordion Column - Compact */}
           <div className="lg:col-span-7 bg-white dark:bg-zinc-900 rounded-[2.5rem] p-2 md:p-6 border border-gray-100 dark:border-white/5 shadow-sm">
              <SpecItem title="How it Works" icon={CpuIcon} defaultOpen={true}>
-                Every action is executed locally on your device's CPU. Using high-performance <span className="text-rose-500 font-bold">Web Workers</span> and <span className="text-rose-500 font-bold">WebAssembly</span>, PDF Knife loads your PDF into a sandboxed environment within your browser tab.
+                Every action is executed locally on your device's CPU. Using high-performance <span className="text-blue-600 font-bold">Web Workers</span> and <span className="text-blue-600 font-bold">WebAssembly</span>, PDF Knife loads your PDF into a sandboxed environment within your browser tab.
              </SpecItem>
 
              <SpecItem title="Data Lifecycle" icon={PrivacyIcon}>
-                Your documents live exclusively in your browser's <span className="text-rose-500 font-bold">volatile memory (RAM)</span>. We do not use persistent storage or cookies for your file content. Once the tab is closed, the data is destroyed.
+                Your documents live exclusively in your browser's <span className="text-blue-600 font-bold">volatile memory (RAM)</span>. We do not use persistent storage or cookies for your file content. Once the tab is closed, the data is destroyed.
              </SpecItem>
 
              <SpecItem title="Deep Metadata Clean" icon={DiskIcon}>
@@ -109,7 +109,7 @@ const AboutWeb = () => {
              </SpecItem>
 
              <SpecItem title="Radical Transparency" icon={CodeIcon}>
-                PDF Knife is <span className="text-rose-500 font-bold">100% Open Source</span> under the <span className="text-rose-500 font-bold">GNU AGPL v3</span> license. This gives you the right to audit every line of code and guarantees the engine remains free.
+                PDF Knife is <span className="text-blue-600 font-bold">100% Open Source</span> under the <span className="text-blue-600 font-bold">GNU AGPL v3</span> license. This gives you the right to audit every line of code and guarantees the engine remains free.
              </SpecItem>
 
              <SpecItem title="Privacy Nodes" icon={ShieldIcon}>
@@ -123,7 +123,7 @@ const AboutWeb = () => {
       {/* 4. Final Footer Links - Condensed */}
       <section className="max-w-4xl mx-auto px-6 text-center border-t border-gray-100 dark:border-zinc-900 pt-16">
         <div className="flex flex-wrap justify-center gap-8 mb-12">
-           <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-rose-500 transition-colors group">
+           <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors group">
               <GHIcon size={16} /> Audit Source <ExternalLinkIcon size={12} className="opacity-40 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
            </a>
         </div>
@@ -151,7 +151,7 @@ const AboutAPK = () => {
             <PdfKnifeLogo size={80} iconColor="#F43F5E" partColor="currentColor" />
           </div>
           <h2 className="text-2xl font-black tracking-tighter dark:text-white leading-none mb-1">PDF Knife</h2>
-          <p className="text-[9px] font-black uppercase tracking-widest text-rose-500">v1.0.9 Stable • Absolute Privacy</p>
+          <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">v1.0.9 Stable • Absolute Privacy</p>
         </div>
 
 
@@ -164,11 +164,11 @@ const AboutAPK = () => {
            
            <div className="divide-y divide-gray-50 dark:divide-white/5 px-2">
               <SpecItem title="How it Works" icon={CpuIcon}>
-                Every action you perform—merging, splitting, or encrypting—happens locally on your device's CPU. PDF Knife uses an internal local engine powered by <span className="text-rose-500 font-bold">pdf-lib</span> and <span className="text-rose-500 font-bold">WebAssembly</span>. No data ever leaves your hardware.
+                Every action you perform—merging, splitting, or encrypting—happens locally on your device's CPU. PDF Knife uses an internal local engine powered by <span className="text-blue-600 font-bold">pdf-lib</span> and <span className="text-blue-600 font-bold">WebAssembly</span>. No data ever leaves your hardware.
               </SpecItem>
 
               <SpecItem title="Data Privacy" icon={PrivacyIcon}>
-                Your files are loaded into the app's <span className="text-rose-500 font-bold">volatile memory (RAM)</span> only during your active session. We do not use persistent storage for your PDF content. Once you close the app or navigate away, the processed document is permanently purged.
+                Your files are loaded into the app's <span className="text-blue-600 font-bold">volatile memory (RAM)</span> only during your active session. We do not use persistent storage for your PDF content. Once you close the app or navigate away, the processed document is permanently purged.
               </SpecItem>
 
               <SpecItem title="Deep Metadata Clean" icon={DiskIcon}>
@@ -176,11 +176,11 @@ const AboutAPK = () => {
               </SpecItem>
 
               <SpecItem title="Open Source Integrity" icon={CodeIcon}>
-                Trust is earned through transparency. PDF Knife is <span className="text-rose-500 font-bold">100% open-source</span> under the <span className="text-rose-500 font-bold">GNU AGPL v3</span> license. This ensures the engine remains free, auditable, and community-driven forever.
+                Trust is earned through transparency. PDF Knife is <span className="text-blue-600 font-bold">100% open-source</span> under the <span className="text-blue-600 font-bold">GNU AGPL v3</span> license. This ensures the engine remains free, auditable, and community-driven forever.
               </SpecItem>
 
               <SpecItem title="Zero Infrastructure" icon={ServerOffIcon}>
-                We operate a <span className="text-rose-500 font-bold">Zero-Server Architecture</span>. We have no backend, no database, and no cloud. Your phone is the laboratory, and your documents stay in your hands alone.
+                We operate a <span className="text-blue-600 font-bold">Zero-Server Architecture</span>. We have no backend, no database, and no cloud. Your phone is the laboratory, and your documents stay in your hands alone.
               </SpecItem>
            </div>
         </div>
@@ -209,6 +209,6 @@ const AboutAPK = () => {
 
 // --- MAIN ROUTER ---
 export default function About({ viewMode }: { viewMode?: ViewMode }) {
-  const isAndroid = viewMode === 'android' || (viewMode === undefined && Capacitor.isNativePlatform())
+  const isAndroid = viewMode === 'android' || (viewMode === undefined && false)
   return isAndroid ? <AboutAPK /> : <AboutWeb />
 }

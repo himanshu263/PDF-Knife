@@ -86,3 +86,20 @@ header, footer, nav, aside, main, section, div, button, input, select {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-300 dark:bg-zinc-700;
 }
+
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md border border-white/20 dark:border-white/10;
+}
+
+.glass-dark {
+  @apply bg-zinc-950/80 backdrop-blur-xl border border-white/10;
+}
+
+.glass-card {
+  @apply bg-white/40 dark:bg-zinc-900/40 backdrop-blur-sm border border-white/20 dark:border-white/10;
+}
+
+.glass-modal {
+  @apply bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border-t border-x border-white/20 dark:border-white/10;
+}
