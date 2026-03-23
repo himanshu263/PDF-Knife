@@ -15,7 +15,7 @@ import {
   HardDrive as DiskIcon,
   EyeOff as PrivacyIcon
 } from 'lucide-react'
-
+import { NativeToolLayout } from './tools/shared/NativeToolLayout'
 import { PdfKnifeLogo } from './Logo'
 import { ViewMode } from '../types'
 
