@@ -136,8 +136,8 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
               <button onClick={() => navigate('/')} className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-xl transition-colors text-gray-500 hover:text-rose-500 shrink-0"><ArrowLeftIcon size={20} /></button>
             )}
             <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
-              <PdfKnifeLogo size={28} />
-              <span className="font-black tracking-tighter text-lg md:text-xl dark:text-white hidden xs:block">PDF Knife</span>
+              <PdfKnifeLogo size={44} />
+              <span className="font-black tracking-tighter text-xl md:text-2xl dark:text-white hidden xs:block">PDF Knife</span>
             </Link>
             <div className="h-6 w-[1px] bg-gray-200 dark:bg-zinc-800 mx-1 md:mx-2 shrink-0" />
             <div className="relative min-w-0" ref={dropdownRef}>
@@ -210,8 +210,8 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
               {/* Brand Column (Span 6) */}
               <div className="col-span-2 md:col-span-6 space-y-4">
                 <Link to="/" className="flex items-center gap-2.5 text-gray-900 dark:text-white group w-fit">
-                  <PdfKnifeLogo size={22} iconColor="#F43F5E" partColor="currentColor" />
-                  <span className="font-bold tracking-tight text-lg group-hover:text-rose-500 transition-colors">PDF Knife</span>
+                  <PdfKnifeLogo size={36} iconColor="#F43F5E" partColor="currentColor" />
+                  <span className="font-bold tracking-tight text-xl group-hover:text-rose-500 transition-colors">PDF Knife</span>
                 </Link>
                 <p className="text-gray-500 dark:text-zinc-500 text-xs leading-relaxed max-w-sm">
                   The privacy-first PDF toolkit. 100% client-side logic. <br/>
