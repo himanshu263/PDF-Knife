@@ -40,11 +40,6 @@ PDF Knife is fully mobile-responsive and works perfectly on smartphones:
 
 ---
 
-### 🚀 Deployment
-
-PDFKnife is ready for production hosting. For detailed instructions on how to host this app on **Hostinger** or other platforms, see the [Deployment Guide](file:///Users/himanshu/AI%20projects%20/PDFKnife/DEPLOYMENT.md).
-
----
 
 ### Under the hood
 

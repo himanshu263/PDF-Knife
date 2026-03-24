@@ -129,7 +129,7 @@ const AboutWeb = () => {
         </div>
         
         <div className="opacity-20 hover:opacity-50 transition-opacity duration-700">
-          <PdfKnifeLogo size={120} iconColor="#F43F5E" partColor="currentColor" className="mx-auto mb-6" />
+          <PdfKnifeLogo size={168} iconColor="#F43F5E" partColor="currentColor" className="mx-auto mb-6" />
           <p className="text-[10px] font-black uppercase tracking-[0.8em] text-gray-400">himanshu263</p>
         </div>
       </section>
@@ -147,9 +147,7 @@ const AboutAPK = () => {
         
         {/* 1. App Identity */}
         <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] p-8 border border-gray-100 dark:border-white/5 shadow-sm flex flex-col items-center text-center">
-          <div className="w-32 h-32 bg-gray-50 dark:bg-black rounded-[2rem] flex items-center justify-center shadow-inner mb-6">
-            <PdfKnifeLogo size={110} iconColor="#F43F5E" partColor="currentColor" />
-          </div>
+            <PdfKnifeLogo size={156} iconColor="#F43F5E" partColor="currentColor" />
           <h2 className="text-3xl font-black tracking-tighter dark:text-white leading-none mb-2">PDF Knife</h2>
           <p className="text-[10px] font-black uppercase tracking-widest text-blue-600">v1.0.9 Stable • Absolute Privacy</p>
         </div>

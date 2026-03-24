@@ -186,7 +186,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         {/* Center: Logo Branding */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <PdfKnifeLogo size={54} />
+            <PdfKnifeLogo size={77} />
           </Link>
         </div>
 
@@ -262,7 +262,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
           <div className="grid grid-cols-2 md:grid-cols-12 gap-8 mb-12">
             <div className="col-span-2 md:col-span-6 space-y-6">
               <Link to="/" className="flex items-center gap-3 text-gray-900 dark:text-white group w-fit">
-                <PdfKnifeLogo size={48} />
+                <PdfKnifeLogo size={67} />
                 <span className="font-black tracking-tighter text-2xl group-hover:text-blue-600 transition-colors">PDF Knife</span>
               </Link>
               <p className="text-gray-500 dark:text-zinc-500 text-sm leading-relaxed max-w-sm font-medium">

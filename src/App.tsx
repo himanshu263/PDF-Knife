@@ -116,9 +116,7 @@ function QuickDropModal({ file, onClear, onBack }: { file: File, onClear: () => 
                     <ChevronDown className="rotate-90" size={20} />
                   </button>
                 )}
-                <div className="w-14 h-14 bg-blue-50 dark:bg-zinc-900 rounded-2xl flex items-center justify-center shadow-lg border border-blue-100 dark:border-white/5">
-                   <PdfKnifeLogo size={40} />
-                </div>
+                <PdfKnifeLogo size={58} className="shrink-0" />
                 <div className="min-w-0">
                    <h3 className="text-lg font-black dark:text-white truncate max-w-[200px] leading-none mb-1">{file.name}</h3>
                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{(file.size / (1024*1024)).toFixed(2)} MB • PDF Document</p>

@@ -1,6 +1,6 @@
-export const PdfKnifeLogo = ({ size = 44, className = "" }: { size?: number, className?: string, iconColor?: string, partColor?: string }) => (
+export const PdfKnifeLogo = ({ size = 113, className = "" }: { size?: number, className?: string, iconColor?: string, partColor?: string }) => (
   <img
-    src="./assets/logo.jpg"
+    src="./assets/logo2.png"
     alt="PDF Knife Logo"
     width={size}
     height={size}
