@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import { 
-  Moon as MoonIcon, 
-  Sun as SunIcon, 
-  History as HistoryIcon, 
-  Upload as UploadIcon, 
-  ChevronRight as ChevronRightIcon, 
+import {
+  Moon as MoonIcon,
+  Sun as SunIcon,
+  History as HistoryIcon,
+  Upload as UploadIcon,
+  ChevronRight as ChevronRightIcon,
   ChevronDown as ChevronDownIcon,
   ArrowLeft as ArrowLeftIcon,
-  LayoutGrid as LayoutGridIcon, 
+  LayoutGrid as LayoutGridIcon,
   Github as GHIcon,
   Download,
   Zap as ZapIcon,
@@ -49,9 +49,9 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false)
   const quickMenuRef = useRef<HTMLDivElement>(null)
   const toolsDropdownRef = useRef<HTMLDivElement>(null)
-  
+
   const isHome = location.pathname === '/'
-  
+
   // Group tools by category
   const toolsByCategory = tools.filter(t => t.implemented).reduce((acc, tool) => {
     if (!acc[tool.category]) acc[tool.category] = []
@@ -113,7 +113,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
 
   return (
     <div className={`min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-black text-gray-900 dark:text-zinc-100 transition-colors duration-500`}>
-      
+
       {isDragging && (
         <div className="fixed inset-0 z-[200] bg-blue-600/10 backdrop-blur-sm flex items-center justify-center pointer-events-none">
           <div className="bg-white dark:bg-zinc-900 p-12 rounded-[3.5rem] shadow-2xl border-4 border-dashed border-blue-600 animate-in zoom-in duration-300">
@@ -125,7 +125,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
 
       {/* Professional Solid Header */}
       <header className="pro-header flex items-center justify-between px-4 md:px-8 h-20 transition-all duration-500">
-        
+
         {/* Left: Search/Back & Tools */}
         <div className="flex items-center gap-2 md:gap-4 flex-1">
           {!isHome && (
@@ -135,7 +135,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
           )}
 
           <div className="relative" ref={toolsDropdownRef}>
-            <button 
+            <button
               onClick={() => setIsToolsDropdownOpen(!isToolsDropdownOpen)}
               className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all font-black text-[10px] md:text-sm uppercase tracking-widest ${isToolsDropdownOpen ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
             >
@@ -187,7 +187,6 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <PdfKnifeLogo size={54} />
-            <span className="font-black tracking-tighter text-3xl dark:text-white hidden lg:block">PDF Knife</span>
           </Link>
         </div>
 
@@ -195,14 +194,14 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
         <div className="flex items-center justify-end gap-2 md:gap-4 flex-1">
           {/* Professional Theme Switcher (Now Visible on Mobile) */}
           <div className="flex items-center gap-1 bg-gray-100 dark:bg-zinc-900 rounded-full p-1 border border-gray-200 dark:border-zinc-800">
-            <button 
-              onClick={() => setTheme('light')} 
+            <button
+              onClick={() => setTheme('light')}
               className={`p-1.5 rounded-full transition-all ${theme === 'light' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
               <SunIcon size={14} strokeWidth={3} />
             </button>
-            <button 
-              onClick={() => setTheme('dark')} 
+            <button
+              onClick={() => setTheme('dark')}
               className={`p-1.5 rounded-full transition-all ${theme === 'dark' ? 'bg-zinc-800 text-blue-400 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
             >
               <MoonIcon size={14} strokeWidth={3} />
@@ -210,7 +209,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
           </div>
 
           <div className="relative" ref={quickMenuRef}>
-            <button 
+            <button
               onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
               className="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-black rounded-full text-[10px] font-black uppercase tracking-widest hover:opacity-80 transition-all shadow-lg active:scale-95 shrink-0"
             >
@@ -221,26 +220,26 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             {isQuickMenuOpen && (
               <div className="absolute right-0 top-full mt-3 w-64 pro-dropdown rounded-3xl p-3 z-[200] animate-in fade-in slide-in-from-top-2 duration-300">
                 <div className="grid grid-cols-1 gap-1">
-                   {[
-                      { label: 'PDF to Image', icon: ImageIcon, path: '/tools/pdf-to-img', color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' },
-                      { label: 'Images to PDF', icon: FileTextIcon, path: '/tools/img-to-pdf', color: 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' },
-                      { label: 'Split PDF', icon: LayoutGridIcon, path: '/tools/split-pdf', color: 'text-purple-500 bg-purple-50 dark:bg-purple-900/20' },
-                      { label: 'Add Password', icon: ShieldIcon, path: '/tools/protect-pdf', color: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' }
-                   ].map(item => (
-                     <button 
-                        key={item.path}
-                        onClick={() => {
-                          navigate(item.path)
-                          setIsQuickMenuOpen(false)
-                        }}
-                        className="w-full flex items-center gap-4 p-3 rounded-2xl hover:bg-blue-600 hover:text-white transition-all group text-left"
-                     >
-                        <div className={`p-2 rounded-xl ${item.color} group-hover:bg-white/20 group-hover:text-white transition-colors`}>
-                          <item.icon size={18} />
-                        </div>
-                        <span className="text-xs font-black uppercase tracking-tight">{item.label}</span>
-                     </button>
-                   ))}
+                  {[
+                    { label: 'PDF to Image', icon: ImageIcon, path: '/tools/pdf-to-img', color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' },
+                    { label: 'Images to PDF', icon: FileTextIcon, path: '/tools/img-to-pdf', color: 'text-blue-500 bg-blue-50 dark:bg-blue-900/20' },
+                    { label: 'Split PDF', icon: LayoutGridIcon, path: '/tools/split-pdf', color: 'text-purple-500 bg-purple-50 dark:bg-purple-900/20' },
+                    { label: 'Add Password', icon: ShieldIcon, path: '/tools/protect-pdf', color: 'text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' }
+                  ].map(item => (
+                    <button
+                      key={item.path}
+                      onClick={() => {
+                        navigate(item.path)
+                        setIsQuickMenuOpen(false)
+                      }}
+                      className="w-full flex items-center gap-4 p-3 rounded-2xl hover:bg-blue-600 hover:text-white transition-all group text-left"
+                    >
+                      <div className={`p-2 rounded-xl ${item.color} group-hover:bg-white/20 group-hover:text-white transition-colors`}>
+                        <item.icon size={18} />
+                      </div>
+                      <span className="text-xs font-black uppercase tracking-tight">{item.label}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -267,17 +266,17 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
                 <span className="font-black tracking-tighter text-2xl group-hover:text-blue-600 transition-colors">PDF Knife</span>
               </Link>
               <p className="text-gray-500 dark:text-zinc-500 text-sm leading-relaxed max-w-sm font-medium">
-                The privacy-first PDF toolkit. 100% client-side logic. <br/>
+                The privacy-first PDF toolkit. 100% client-side logic. <br />
                 No uploads, no servers, just your data in your browser.
               </p>
               <div className="flex items-center gap-4">
-                 <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500 group">
-                   <GHIcon size={18} className="group-hover:scale-110 transition-transform" />
-                 </a>
-                 <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/20 rounded-full flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Stable Engine</span>
-                 </div>
+                <a href="https://github.com/himanshu263/PDF-Knife" target="_blank" className="p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl hover:bg-blue-600 hover:text-white transition-all text-gray-500 dark:text-zinc-500 group">
+                  <GHIcon size={18} className="group-hover:scale-110 transition-transform" />
+                </a>
+                <div className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/20 rounded-full flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Stable Engine</span>
+                </div>
               </div>
             </div>
 
@@ -316,7 +315,7 @@ export default function Layout({ children, theme, toggleTheme, tools, onFileDrop
             </div>
             <div className="flex items-center gap-2">
               {activity.length > 0 && (
-                <button 
+                <button
                   onClick={async () => { await clearActivity(); setActivity([]); }}
                   className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-400 hover:text-blue-600 rounded-xl transition-colors"
                 >
