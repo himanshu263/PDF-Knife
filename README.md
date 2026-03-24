@@ -2,6 +2,8 @@
 
 The privacy-first PDF toolkit. 100% client-side logic. No uploads, no servers, just your data in your browser.
 
+![Screenshot](assets/screenshot.png)
+
 ---
 
 ### Key Features
